@@ -9,6 +9,7 @@ pub struct DbList<T> {
 
 // To avoid reference cycles, `prev` is defined as `Weak<T>` whilst `next` uses strong reference
 // with `Rc<T>`.
+// https://doc.rust-lang.org/book/ch15-06-reference-cycles.html
 #[derive(Debug)]
 pub struct DbNode<T> {
     data: T,
