@@ -1,0 +1,16 @@
+[package]
+name = "algorithms"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+
+[[bin]]
+name="v1_ll"
+path="src/v1_ll.rs"
+
+[[bin]]
+name="v2_dbl"
+path="src/v2_dbl.rs"
