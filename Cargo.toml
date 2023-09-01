@@ -22,3 +22,7 @@ path="src/v3_bintree.rs"
 [[bin]]
 name="catalan"
 path="src/catalan.rs"
+
+[[bin]]
+name="power-set"
+path="src/set.rs"
