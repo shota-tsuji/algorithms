@@ -14,3 +14,11 @@ path="src/v1_ll.rs"
 [[bin]]
 name="v2_dbl"
 path="src/v2_dbl.rs"
+
+[[bin]]
+name="v3_bintree"
+path="src/v3_bintree.rs"
+
+[[bin]]
+name="catalan"
+path="src/catalan.rs"
