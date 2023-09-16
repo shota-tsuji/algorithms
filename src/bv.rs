@@ -194,4 +194,15 @@ mod tests {
         bv.build();
         assert_eq!(bv.rank(9, true), 3);
     }
+
+    #[test]
+    fn select_successfully() {
+        let mut bv = BitVector::new();
+        bv.set(0, true);
+        bv.set(3, true);
+        bv.set(8, true);
+        bv.build();
+        assert_eq!(bv.select(0, true), 0);
+        assert_eq!(bv.select(2, true), 8);
+    }
 }
