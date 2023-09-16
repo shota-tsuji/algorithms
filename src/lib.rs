@@ -19,10 +19,9 @@ impl BWT {
         }
     }
 
-    fn sa2char(&self, i: usize, depth: u64) -> u8 {
+    fn sa2char(&self, i: usize, depth: u64) -> char {
         let offset = ((self.sa[i] + depth) % self.size) as usize;
-        // not to lowercase
-        self.str.as_ref().unwrap().chars().nth(offset).unwrap().to_ascii_lowercase() as u8
+        self.str.as_ref().unwrap().chars().nth(offset).unwrap()
     }
 
     fn sort(&mut self, begin: i64, end: i64, depth: u64) {
@@ -158,5 +157,13 @@ mod tests {
         bwt.build("mississippi");
         println!("{}", bwt.get_str());
         assert_eq!(bwt.get_str(), "ipssm\0pissii".to_string())
+    }
+
+    #[test]
+    fn build_upper_case() {
+        let mut bwt = BWT::new();
+        bwt.build("Mississippi");
+        println!("{}", bwt.get_str());
+        assert_eq!(bwt.get_str(), "i\0pssMpissii".to_string())
     }
 }
