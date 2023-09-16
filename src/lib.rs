@@ -21,6 +21,7 @@ impl BWT {
 
     fn sa2char(&self, i: usize, depth: u64) -> u8 {
         let offset = ((self.sa[i] + depth) % self.size) as usize;
+        // not to lowercase
         self.str.as_ref().unwrap().chars().nth(offset).unwrap().to_ascii_lowercase() as u8
     }
 
@@ -81,17 +82,30 @@ impl BWT {
         self.sort(begin, begin + (b - a) - 1, depth);
         self.sort(begin + (b - a), end - (d - c), depth + 1);
         self.sort(end - (d - c) + 1, end, depth);
+        self.print_sa();
     }
 
     fn build(&mut self, str: &str) {
-        self.str =  Some(str.to_owned());
+        let str = str.clone().to_owned() + "\0";
+        self.str = Some(str.to_owned());
         self.sa.clear();
         self.size = 0;
+
+        for c in self.str.clone().unwrap().chars() {
+            print!(", {}", c);
+        }
 
         for _ in str.chars() {
             self.sa.push(self.size);
             self.size += 1;
         }
+        /*
+        while str.chars().nth(self.size as usize).unwrap() != '\0' {
+            self.sa.push(self.size);
+            self.size += 1;
+        }
+         */
+        self.print_sa();
 
         self.sort(0, (self.size - 1) as i64, 0);
 
@@ -101,6 +115,36 @@ impl BWT {
                 break;
             }
         }
+    }
+
+    fn get(&self, i: usize) -> char {
+        if i >= self.size as usize {
+            panic!("bwt::get()");
+        }
+        let index = self.sa[i];
+        self.str.as_ref().unwrap().chars().nth(((index + self.size - 1) % self.size) as usize).unwrap()
+    }
+
+    fn get_str(&self) -> String {
+        let mut result = String::new();
+        for i in 0..self.size as usize {
+            result.push(self.get(i))
+        }
+        result
+    }
+
+    fn print_sa(&self) {
+        print!("sa[");
+        for i in 0..self.sa.len() {
+            print!("{}, ", self.sa[i]);
+        }
+        println!("]");
+
+        print!("[");
+        for i in 0..self.sa.len() {
+            print!("{}, ", self.get(i));
+        }
+        println!("]");
     }
 }
 
@@ -112,5 +156,7 @@ mod tests {
     fn build() {
         let mut bwt = BWT::new();
         bwt.build("mississippi");
+        println!("{}", bwt.get_str());
+        assert_eq!(bwt.get_str(), "ipssm\0pissii".to_string())
     }
 }
